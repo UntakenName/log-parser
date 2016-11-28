@@ -1,22 +1,19 @@
-package ru.nc.gordeev.logparser;
-
+package ru.nc.gordeev.logparser.util;
 import org.joda.time.DateTime;
+import ru.nc.gordeev.logparser.data.LogFile;
+import ru.nc.gordeev.logparser.data.LogLine;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.*;
 import java.util.regex.*;
+import static ru.nc.gordeev.logparser.data.LogLine.LOG_TIME_FORMAT;
 
-import static ru.nc.gordeev.logparser.LogLine.LOG_TIME_FORMAT;
-
-/**
- * Created by Sovereign on 12.11.2016.
- */
-public class LogDecoder {
-    public static void main(String[] args) {    }
-    static final Pattern LOG=Pattern.compile("(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2},\\d{3})? \\[(.{7})?\\](.{7})? - (.{30})? - (.*)?");
-    public static LogFile decodeLogFile(String path){
+public class LogParser {
+    static private Pattern log=Pattern.compile("(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2},\\d{3})? \\[(.{7})?\\](.{7})? - (.{30})? - (.*)?");
+    public static void parseFile(String path){
         String line;
         ArrayList<String> content=new ArrayList<>();
         final int[] i = {0};
@@ -28,12 +25,11 @@ public class LogDecoder {
             }
         } catch (IOException e) {
             Logger.getAnonymousLogger().log(Level.WARNING,"SOMETHING WENT WRONG!",e);
-            return new LogFile(path,new ArrayList<>());
         }
-        ArrayList<LogLine> logs=new ArrayList<>();
+        ArrayList<LogLine> logs=new ArrayList<>(content.size());
         i[0] =0;
         content.forEach((logLine)-> {
-            Matcher matcher = LOG.matcher(logLine);
+            Matcher matcher = log.matcher(logLine);
             if(matcher.find()){
                 DateTime date = matcher.group(1) !=null ? LOG_TIME_FORMAT.parseDateTime(matcher.group(1)) : new DateTime();
                 String mark = matcher.group(2)!=null ? matcher.group(2).trim() : null;
@@ -43,6 +39,7 @@ public class LogDecoder {
                 logs.add(i[0]++,new LogLine(date,mark,logLevel,classPath,message));
             }
         });
-        return new LogFile(path,logs);
+        DataManager.insert(new LogFile(path,logs));
+        System.out.println(path + " has been put in the library.");
     }
 }

@@ -1,4 +1,4 @@
-package ru.nc.gordeev.logparser;
+package ru.nc.gordeev.logparser.data;
 
 
 
@@ -8,7 +8,6 @@ import java.util.ArrayList;
  * Created by Sovereign on 10.11.2016.
  */
 public class LogFile {
-    public static void main(String[] args) {}
     private String path = "Unknown";
     private ArrayList<LogLine> logs = new ArrayList<>();
 
@@ -31,7 +30,9 @@ public class LogFile {
     @Override
     public String toString() {
         StringBuilder file = new StringBuilder(path);
-        logs.forEach((logLine)->{file.append("\n" + logLine.toString());});
+        logs.forEach((logLine)->{
+            file.append("\n").append(logLine.toString());
+        });
         return file.toString();
     }
 }
