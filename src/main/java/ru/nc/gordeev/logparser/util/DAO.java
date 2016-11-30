@@ -2,7 +2,7 @@ package ru.nc.gordeev.logparser.util;
 
 import ru.nc.gordeev.logparser.data.LogFile;
 
-public interface IStorage {
+public interface DAO {
     public void insert(LogFile file);
     public LogFile find(String path);
     public void delete(String path);
@@ -12,4 +12,5 @@ public interface IStorage {
     public void clear();
     public void show(String path);
     public void showAll();
+    public boolean contains(String path);
 }

@@ -3,7 +3,7 @@ package ru.nc.gordeev.logparser.util;
 import ru.nc.gordeev.logparser.data.LogFile;
 import ru.nc.gordeev.logparser.data.RAMStorage;
 
-public class IRAMStorage implements IStorage {
+public class RAMDAOImpl implements DAO {
     RAMStorage storage = RAMStorage.getInstance();
     public void insert(LogFile file){storage.lib.put(file.getPath(),file);}
     public LogFile find(String key){
@@ -29,4 +29,5 @@ public class IRAMStorage implements IStorage {
         storage.lib.forEach((key,file)->
                 System.out.println(key));
     }
+    public boolean contains(String key) {return storage.lib.containsKey(key);}
 }

@@ -25,11 +25,12 @@ public class LogParser {
             }
         } catch (IOException e) {
             Logger.getAnonymousLogger().log(Level.WARNING,"SOMETHING WENT WRONG!",e);
+            return;
         }
         ArrayList<LogLine> logs=new ArrayList<>(content.size());
         i[0] =0;
-        content.forEach((logLine)-> {
-            Matcher matcher = log.matcher(logLine);
+        content.forEach((contentLine)-> {
+            Matcher matcher = log.matcher(contentLine);
             if(matcher.find()){
                 DateTime date = matcher.group(1) !=null ? LOG_TIME_FORMAT.parseDateTime(matcher.group(1)) : new DateTime();
                 String mark = matcher.group(2)!=null ? matcher.group(2).trim() : null;
@@ -39,7 +40,10 @@ public class LogParser {
                 logs.add(i[0]++,new LogLine(date,mark,logLevel,classPath,message));
             }
         });
-        DataManager.insert(new LogFile(path,logs));
-        System.out.println(path + " has been put in the library.");
+        if (logs.size()>0) {
+            DataManager.insert(new LogFile(path,logs));
+            System.out.println(path + " has been put in the library.");
+        } else System.out.println("No specified log format lines were detected.");
+
     }
 }

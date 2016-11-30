@@ -1,8 +1,5 @@
 package ru.nc.gordeev.logparser.util;
 
-import ru.nc.gordeev.logparser.data.LogFile;
-import ru.nc.gordeev.logparser.data.RAMStorage;
-
 
 import java.util.Scanner;
 
@@ -77,7 +74,7 @@ public class UI {
                     System.out.println("Good bye!");
                     break interaction;
                 case "ram":
-                    DataManager.getRAMStorage();
+                    //DataManager.getRAMStorage();
                     break;
                 default:{
                     LogParser.parseFile(line.toLowerCase());
