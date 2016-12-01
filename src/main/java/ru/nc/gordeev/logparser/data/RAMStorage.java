@@ -1,7 +1,5 @@
 package ru.nc.gordeev.logparser.data;
 
-
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

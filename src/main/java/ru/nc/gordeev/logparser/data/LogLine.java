@@ -1,38 +1,31 @@
 package ru.nc.gordeev.logparser.data;
 
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+import ru.nc.gordeev.logparser.util.LogLinePart;
+import java.lang.reflect.Field;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static ru.nc.gordeev.logparser.util.Configurator.*;
 
 public class LogLine {
-    public static final DateTimeFormatter LOG_TIME_FORMAT = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss,SSS");
     private DateTime date = new DateTime(); //the date-time of an instance creation by default
     private String mark;   //not sure what this part of a log stands for so declared it as String
     private String logLevel;
     private String classPath;
     private String message;
 
-    public DateTime getDate() {
-        DateTime taken = new DateTime(date);
-        return taken;
+    public <T> T getAParsedPart(LogLinePart part){
+        Class line = LogLine.class;
+        try {
+            Field field =line.getDeclaredField(part.fieldName);
+            System.out.println(field);
+            if(part != LogLinePart.DATE) {
+                return (T) field.get(this);
+            } else return (T) new DateTime(field.get(this));
+        } catch (NoSuchFieldException|IllegalAccessException e) {
+            Logger.getAnonymousLogger().log(Level.WARNING,"Can't manage operation");
+            return null; }
     }
-
-    public String getMark() {
-        return mark;
-    }
-
-    public String getLogLevel() {
-        return logLevel;
-    }
-
-    public String getClassPath() {
-        return classPath;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
     public LogLine() {
     }
 
@@ -50,8 +43,8 @@ public class LogLine {
 
     @Override
     public String toString() {
-        return String.format("%1$s [%2$7s]%3$7s - %4$30s - %5$s",
-                date.toString(LOG_TIME_FORMAT),
+        return String.format(lineToStringFormat,
+                date.toString(logTimeFormat),
                 mark,
                 logLevel,
                 classPath,

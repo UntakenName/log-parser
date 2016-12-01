@@ -3,12 +3,10 @@ package ru.nc.gordeev.logparser.util;
 import ru.nc.gordeev.logparser.data.LogFile;
 
 public class DataManager {
-    public static DAOFactory factory=new RAMDAOFactory();
-    /**public static void getRAMStorage() {
-        if(!(factory instanceof RAMStorageFactory)) {
-            factory=new RAMStorageFactory();
-        }
-    }*/
+    private static DAOFactory factory;
+    public static void setFactory(DAOFactory givenFactory) {
+        factory=givenFactory;
+    }
     public static void insert(LogFile file) {
         factory.getDAOImplementation().insert(file);
     }
@@ -51,5 +49,8 @@ public class DataManager {
     public static void showAll() {
         factory.getDAOImplementation().showAll();
     }
-
+    public static boolean contains(String path) {
+        DAO concreteDAO=factory.getDAOImplementation();
+        return concreteDAO.contains(path);
+    }
 }

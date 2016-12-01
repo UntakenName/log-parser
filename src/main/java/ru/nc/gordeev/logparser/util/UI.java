@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class UI {
     public static void main(String[] args) {
+        Configurator.getInitialConfigurations();
         System.out.println("Greetings!\nType \"help\" for available commands.");
         Scanner scanner = new Scanner(System.in);
         String line;
@@ -16,6 +17,7 @@ public class UI {
                     System.out.println("Type:\n/path/ - specify the path to parse a .log file and put it in the library;\n" +
                             "count - to enter the count section;\n"+
                             "print - to enter print section;\n" +
+                            "config - to enter configuration section;\n" +
                             "exit - to finish the session.");
                     break;
                 case "count":
@@ -42,7 +44,7 @@ public class UI {
                                 System.out.println("Good bye!");
                                 break interaction;
                             default:
-                                DataManager.countLines(line.toLowerCase());
+                                DataManager.countLines(line);
                         }
                     }
                     break;
@@ -66,18 +68,40 @@ public class UI {
                                 System.out.println("Good bye!");
                                 break interaction;
                             default:
-                                DataManager.show(line.toLowerCase());
+                                DataManager.show(line);
+                        }
+                    }
+                    break;
+                case "config":
+                    System.out.println("You're in the configuration section.\nType \"help\" for available commands. ");
+                    config: while (true) {
+                        line = scanner.nextLine();
+                        switch (line.toLowerCase()) {
+                            case "help":
+                                System.out.println("Type:\n/path/ - specify the file to get configuration from;\n" +
+                                        "default - to return to default configurations;\n" +
+                                        "back - to return to the main section;\n" +
+                                        "exit - to finish the session.");
+                                break;
+                            case "default":
+                                Configurator.getInitialConfigurations();
+                                System.out.println("Initial configurations have been applied.");
+                                break;
+                            case "back":
+                                break config;
+                            case "exit":
+                                System.out.println("Good bye!");
+                                break interaction;
+                            default:
+                                Configurator.getConfiguration(line);
                         }
                     }
                     break;
                 case "exit":
                     System.out.println("Good bye!");
                     break interaction;
-                case "ram":
-                    //DataManager.getRAMStorage();
-                    break;
                 default:{
-                    LogParser.parseFile(line.toLowerCase());
+                    LogParser.parseFile(line);
                 }
             }
         }

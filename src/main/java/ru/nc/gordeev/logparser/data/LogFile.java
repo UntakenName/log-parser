@@ -1,12 +1,7 @@
 package ru.nc.gordeev.logparser.data;
 
-
-
 import java.util.ArrayList;
 
-/**
- * Created by Sovereign on 10.11.2016.
- */
 public class LogFile {
     private String path = "Unknown";
     private ArrayList<LogLine> logs = new ArrayList<>();
