@@ -2,6 +2,11 @@ package ru.nc.gordeev.logparser.util;
 
 import ru.nc.gordeev.logparser.data.LogFile;
 
+/** DAO interface serves to weaken the coupling between the application functionality and applicable
+ *  storage types. To make the application work with another type of storage, create DAO implementation
+ *  of this storage and declare an element within StorageType enum.
+ */
+
 public interface DAO {
     void insert(LogFile file);
     LogFile find(String path);

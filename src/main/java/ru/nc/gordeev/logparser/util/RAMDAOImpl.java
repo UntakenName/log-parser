@@ -1,33 +1,34 @@
 package ru.nc.gordeev.logparser.util;
 
 import ru.nc.gordeev.logparser.data.LogFile;
-import ru.nc.gordeev.logparser.data.RAMStorage;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RAMDAOImpl implements DAO {
-    RAMStorage storage = RAMStorage.getInstance();
-    public void insert(LogFile file){storage.lib.put(file.getPath(),file);}
+    private static Map<String, LogFile> library = new ConcurrentHashMap<>();
+    public void insert(LogFile file){library.put(file.getPath(),file);}
     public LogFile find(String key){
-        return storage.lib.get(key);
+        return library.get(key);
     }
     public void delete(String key){
-        storage.lib.remove(key);
+        library.remove(key);
     }
     public void update(String key, LogFile file){
-        storage.lib.replace(key,file);
+        library.replace(key,file);
     }
-    public int countLines(String key){ return storage.lib.get(key).getLogs().size(); }
+    public int countLines(String key){ return library.get(key).getLogs().size(); }
     public int countFiles(){
-        return storage.lib.size();
+        return library.size();
     }
     public void clear(){
-        storage.lib.clear();
+        library.clear();
     }
     public void show(String key) {
-        System.out.println(storage.lib.get(key));
+        System.out.println(library.get(key));
     }
     public void showAll() {
-        storage.lib.forEach((key,file)->
-                System.out.println(key));
+        library.forEach((key,file)-> System.out.println(key));
     }
-    public boolean contains(String key) {return storage.lib.containsKey(key);}
+    public boolean contains(String key) {return library.containsKey(key);}
 }

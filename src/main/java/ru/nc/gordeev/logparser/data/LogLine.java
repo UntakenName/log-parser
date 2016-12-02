@@ -1,11 +1,7 @@
 package ru.nc.gordeev.logparser.data;
 
 import org.joda.time.DateTime;
-import ru.nc.gordeev.logparser.util.LogLinePart;
-import java.lang.reflect.Field;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static ru.nc.gordeev.logparser.util.Configurator.*;
+import static ru.nc.gordeev.logparser.data.Configurations.*;
 
 public class LogLine {
     private DateTime date = new DateTime(); //the date-time of an instance creation by default
@@ -14,18 +10,26 @@ public class LogLine {
     private String classPath;
     private String message;
 
-    public <T> T getAParsedPart(LogLinePart part){
-        Class line = LogLine.class;
-        try {
-            Field field =line.getDeclaredField(part.fieldName);
-            System.out.println(field);
-            if(part != LogLinePart.DATE) {
-                return (T) field.get(this);
-            } else return (T) new DateTime(field.get(this));
-        } catch (NoSuchFieldException|IllegalAccessException e) {
-            Logger.getAnonymousLogger().log(Level.WARNING,"Can't manage operation");
-            return null; }
+    public DateTime getDate() {
+        return new DateTime(date);
     }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public String getLogLevel() {
+        return logLevel;
+    }
+
+    public String getClassPath() {
+        return classPath;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
     public LogLine() {
     }
 
@@ -43,8 +47,8 @@ public class LogLine {
 
     @Override
     public String toString() {
-        return String.format(lineToStringFormat,
-                date.toString(logTimeFormat),
+        return String.format(getCurrentConfigurations().getLineToStringFormat(),
+                date.toString(getCurrentConfigurations().getLogTimeFormat()),
                 mark,
                 logLevel,
                 classPath,

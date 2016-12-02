@@ -10,7 +10,7 @@ public class LogFile {
 
     public ArrayList<LogLine> getLogs() {
         ArrayList<LogLine> taken = new ArrayList<>();
-        logs.forEach((logLine)->{taken.add(logs.indexOf(logLine),logLine);});
+        logs.forEach((logLine)->taken.add(logs.indexOf(logLine),logLine));
         return taken;
     }
 
@@ -25,9 +25,9 @@ public class LogFile {
     @Override
     public String toString() {
         StringBuilder file = new StringBuilder(path);
-        logs.forEach((logLine)->{
-            file.append("\n").append(logLine.toString());
-        });
+        logs.forEach((logLine)->
+            file.append("\n").append(logLine.toString())
+        );
         return file.toString();
     }
 }

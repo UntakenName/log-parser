@@ -5,7 +5,8 @@ import java.util.Scanner;
 
 public class UI {
     public static void main(String[] args) {
-        Configurator.getInitialConfigurations();
+        new ConfigurationManager(new StorageConfigurator(),new ParsingConfigurator(),new DateConfigurator())
+                .setInitialConfigurations();
         System.out.println("Greetings!\nType \"help\" for available commands.");
         Scanner scanner = new Scanner(System.in);
         String line;
@@ -33,10 +34,10 @@ public class UI {
                                         "exit - to finish the session.");
                                 break;
                             case "all":
-                                DataManager.countFiles();
+                                new DataManager().countFiles();
                                 break;
                             case "print":
-                                DataManager.showAll();
+                                new DataManager().showAll();
                                 break;
                             case "back":
                                 break count;
@@ -44,7 +45,7 @@ public class UI {
                                 System.out.println("Good bye!");
                                 break interaction;
                             default:
-                                DataManager.countLines(line);
+                                new DataManager().countLines(line);
                         }
                     }
                     break;
@@ -60,7 +61,7 @@ public class UI {
                                         "exit - to finish the session.");
                                 break;
                             case "all":
-                                DataManager.showAll();
+                                new DataManager().showAll();
                                 break;
                             case "back":
                                 break print;
@@ -68,7 +69,7 @@ public class UI {
                                 System.out.println("Good bye!");
                                 break interaction;
                             default:
-                                DataManager.show(line);
+                                new DataManager().show(line);
                         }
                     }
                     break;
@@ -80,12 +81,17 @@ public class UI {
                             case "help":
                                 System.out.println("Type:\n/path/ - specify the file to get configuration from;\n" +
                                         "default - to return to default configurations;\n" +
+                                        "print - to print current configurations;\n"+
                                         "back - to return to the main section;\n" +
                                         "exit - to finish the session.");
                                 break;
                             case "default":
-                                Configurator.getInitialConfigurations();
+                                new ConfigurationManager(new StorageConfigurator(),new ParsingConfigurator(),new DateConfigurator())
+                                        .setInitialConfigurations();
                                 System.out.println("Initial configurations have been applied.");
+                                break;
+                            case "print":
+                                System.out.println(new ConfigurationManager().getCurrentConfigurations());
                                 break;
                             case "back":
                                 break config;
@@ -93,7 +99,8 @@ public class UI {
                                 System.out.println("Good bye!");
                                 break interaction;
                             default:
-                                Configurator.getConfiguration(line);
+                                new ConfigurationManager(new StorageConfigurator(),new ParsingConfigurator(),new DateConfigurator())
+                                        .setConfigurations(line);
                         }
                     }
                     break;
@@ -101,7 +108,7 @@ public class UI {
                     System.out.println("Good bye!");
                     break interaction;
                 default:{
-                    LogParser.parseFile(line);
+                    new LogParser().parseFile(line);
                 }
             }
         }

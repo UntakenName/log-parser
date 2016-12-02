@@ -1,0 +1,6 @@
+test
+2016-10-27 18:50:12,562 [      0]   INFO - etbrains.jps.cmdline.BuildMain - Build process started. Classpath: C:/Program Files (x86)/JetBrains/IntelliJ IDEA 2016.2.5/lib/jps-launcher.jar;C:/Program Files/Java/jdk1.8.0_101/lib/tools.jar;C:/Program Files (x86)/JetBrains/IntelliJ IDEA 2016.2.5/lib/optimizedFileManager.jar;C:/Program Files (x86)/JetBrains/IntelliJ IDEA 2016.2.5/lib/ecj-4.5.2.jar
+test
+2016-10-27 18:50:13,655 [   1093]   INFO - etbrains.jps.cmdline.BuildMain - Connection to IDE established in 1027 ms
+test
+2016-10-27 18:50:13,655 [       ]        -                                - 
