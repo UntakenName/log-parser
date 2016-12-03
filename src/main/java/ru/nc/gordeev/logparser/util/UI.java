@@ -5,8 +5,6 @@ import java.util.Scanner;
 
 public class UI {
     public static void main(String[] args) {
-        new ConfigurationManager(new StorageConfigurator(),new ParsingConfigurator(),new DateConfigurator())
-                .setInitialConfigurations();
         System.out.println("Greetings!\nType \"help\" for available commands.");
         Scanner scanner = new Scanner(System.in);
         String line;
@@ -88,7 +86,6 @@ public class UI {
                             case "default":
                                 new ConfigurationManager(new StorageConfigurator(),new ParsingConfigurator(),new DateConfigurator())
                                         .setInitialConfigurations();
-                                System.out.println("Initial configurations have been applied.");
                                 break;
                             case "print":
                                 System.out.println(new ConfigurationManager().getCurrentConfigurations());

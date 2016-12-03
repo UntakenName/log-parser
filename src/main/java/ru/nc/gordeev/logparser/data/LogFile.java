@@ -30,4 +30,19 @@ public class LogFile {
         );
         return file.toString();
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof LogFile)) return false;
+
+        LogFile logFile = (LogFile) o;
+
+        return logs != null ? logs.equals(logFile.logs) : logFile.logs == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return logs != null ? logs.hashCode() : 0;
+    }
 }

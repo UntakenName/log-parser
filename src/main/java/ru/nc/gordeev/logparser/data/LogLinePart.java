@@ -21,6 +21,7 @@ public enum LogLinePart {
         range=end-start+1;
     }
     LogLinePart(char letter) {
+        setRegExpGroup(ordinal()+1);
         placeHolder=letter;
     }
 }

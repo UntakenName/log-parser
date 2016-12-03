@@ -39,5 +39,6 @@ public class ConfigurationManager {
     public ConfigurationManager(Configurator... appliedConfigurators) {
         configurators.ensureCapacity(appliedConfigurators.length);
         configurators.addAll(Arrays.asList(appliedConfigurators));
+        System.out.println("Initial configurations have been applied!");
     }
 }
