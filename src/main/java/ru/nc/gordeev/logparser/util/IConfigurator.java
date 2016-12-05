@@ -1,5 +1,7 @@
 package ru.nc.gordeev.logparser.util;
 
+import ru.nc.gordeev.logparser.data.Configurations;
+
 import java.util.Properties;
 
     /** ConfigurationManager uses Configurator implementations to configure application properties.
@@ -8,7 +10,7 @@ import java.util.Properties;
      *  the other implementations.
      */
 
-public interface Configurator {
-    void setConfiguration(Properties properties);
-    void setInitialConfiguration();
+public interface IConfigurator {
+    void setConfiguration(Configurations currentConfigurations, Properties newConfigurations);
+    void setInitialConfiguration(Configurations currentConfigurations);
 }

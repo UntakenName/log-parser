@@ -1,25 +1,26 @@
 package ru.nc.gordeev.logparser.util;
 
+import ru.nc.gordeev.logparser.data.Configurations;
+
 import java.util.Properties;
-import static ru.nc.gordeev.logparser.data.Configurations.*;
 
     /** Class serves to configure DateTime format according to SRP.
      *  Class that contains configurations to work with should have static
      *  methods void setLogTimeFormat(String) and void setProperty(String,String)
      */
-public class DateConfigurator implements Configurator {
+public class DateConfigurator implements IConfigurator {
     @Override
-    public void setConfiguration(Properties properties) {
+    public void setConfiguration(Configurations currentConfigurations, Properties properties) {
         String logTimeFormat=properties.getProperty("logTimeFormat");
-        if (logTimeFormat!=null) {
-            getCurrentConfigurations().setLogTimeFormat(logTimeFormat);
-            getCurrentConfigurations().setProperty("logTimeFormat",logTimeFormat);
-        } else setInitialConfiguration();
+        if (logTimeFormat!=null&&!(logTimeFormat.equals(currentConfigurations.getProperties().getProperty("logTimeFormat")))) {
+            currentConfigurations.setLogTimeFormat(logTimeFormat);
+            currentConfigurations.setProperty("logTimeFormat",logTimeFormat);
+        }
     }
 
     @Override
-    public void setInitialConfiguration() {
-        getCurrentConfigurations().setLogTimeFormat("yyyy-MM-dd HH:mm:ss,SSS");
-        getCurrentConfigurations().setProperty("logTimeFormat","yyyy-MM-dd HH:mm:ss,SSS");
+    public void setInitialConfiguration(Configurations currentConfigurations) {
+        currentConfigurations.setLogTimeFormat("yyyy-MM-dd HH:mm:ss,SSS");
+        currentConfigurations.setProperty("logTimeFormat","yyyy-MM-dd HH:mm:ss,SSS");
     }
 }

@@ -1,8 +1,10 @@
 package ru.nc.gordeev.logparser.util;
 import org.joda.time.DateTime;
+import ru.nc.gordeev.logparser.data.Configurations;
 import ru.nc.gordeev.logparser.data.LogFile;
 import ru.nc.gordeev.logparser.data.LogLine;
 import ru.nc.gordeev.logparser.data.LogLinePart;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,25 +14,27 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.*;
 import java.util.regex.*;
-import static ru.nc.gordeev.logparser.data.Configurations.*;
 
 public class LogParser {
+
+    private DataManager manager;
+
+    private Configurations config;
+
+    LogParser(DataManager dataManager,Configurations configurations) {
+        manager=dataManager;
+        config=configurations;
+    }
+
     public void parseFile(String path){
         ArrayList<String> content = obtainContent(path);
-        LogFile parsedLog = parseLog(path,content);
+        LogFile parsedLog = parse(path,content);
         if (parsedLog.getLogs().size()>0) {
-            DataManager dataManager = new DataManager();
-            if (!dataManager.contains(path)) {
-                dataManager.insert(parsedLog);
-                System.out.println(path + " has been put in the library.");
-            } else {
-                dataManager.update(path,parsedLog);
-                System.out.println(path + " has been updated.");
-            }
+            manager.insert(parsedLog);
         } else System.out.println("No specified log format lines were detected.");
     }
 
-    public ArrayList<String> obtainContent(String path) {
+    private ArrayList<String> obtainContent(String path) {
         String line;
         ArrayList<String> content=new ArrayList<>();
         final int[] i = {0};
@@ -47,22 +51,21 @@ public class LogParser {
         }
     }
 
-    public LogFile parseLog(String path, Collection<String> content) {
+    private LogFile parse(String path, Collection<String> content) {
         ArrayList<LogLine> logs=new ArrayList<>(content.size());
         final int[] i = {0};
         content.forEach((contentLine)-> {
-            Matcher matcher = getCurrentConfigurations().getLogFormat().matcher(contentLine);
+            Matcher matcher = config.getLogFormat().matcher(contentLine);
             if(matcher.find()){
                 Map<LogLinePart,Object> partContent = new HashMap<>(5);
                 for(LogLinePart part: LogLinePart.values()){
                     if(part!=LogLinePart.DATE){
-                        if(part.regExpGroup>0 && matcher.group(part.regExpGroup)!=null) {
-                            partContent.put(part,matcher.group(part.regExpGroup).trim());
+                        if(part.getRegExpGroup()>0 && matcher.group(part.getRegExpGroup())!=null) {
+                            partContent.put(part,matcher.group(part.getRegExpGroup()).trim());
                         } else partContent.put(part,null);
-                    } else if(part.regExpGroup>0 && matcher.group(part.regExpGroup)!=null) {
-                        partContent.put(part,
-                                getCurrentConfigurations().getLogTimeFormat()
-                                        .parseDateTime(matcher.group(part.regExpGroup)));
+                    } else if(part.getRegExpGroup()>0 && matcher.group(part.getRegExpGroup())!=null) {
+                        partContent.put(part,config.getLogTimeFormat()
+                                        .parseDateTime(matcher.group(part.getRegExpGroup())));
                     } else partContent.put(part,new DateTime());
                 }
                 logs.add(i[0]++,new LogLine(

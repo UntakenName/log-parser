@@ -1,34 +1,32 @@
 package ru.nc.gordeev.logparser.util;
 
 import ru.nc.gordeev.logparser.data.LogFile;
+import ru.nc.gordeev.logparser.data.RAMStorage;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
-public class RAMDAOImpl implements DAO {
-    private static Map<String, LogFile> library = new ConcurrentHashMap<>();
-    public void insert(LogFile file){library.put(file.getPath(),file);}
+public class RAMDAOImpl implements IDAO {
+    public void insert(LogFile file){RAMStorage.getInstance().getLibrary().put(file.getPath(),file);}
     public LogFile find(String key){
-        return library.get(key);
+        return RAMStorage.getInstance().getLibrary().get(key);
     }
     public void delete(String key){
-        library.remove(key);
+        RAMStorage.getInstance().getLibrary().remove(key);
     }
     public void update(String key, LogFile file){
-        library.replace(key,file);
+        RAMStorage.getInstance().getLibrary().replace(key,file);
     }
-    public int countLines(String key){ return library.get(key).getLogs().size(); }
+    public int countLines(String key){ return RAMStorage.getInstance().getLibrary().get(key).getLogs().size(); }
     public int countFiles(){
-        return library.size();
+        return RAMStorage.getInstance().getLibrary().size();
     }
     public void clear(){
-        library.clear();
+        RAMStorage.getInstance().getLibrary().clear();
     }
     public void show(String key) {
-        System.out.println(library.get(key));
+        System.out.println(RAMStorage.getInstance().getLibrary().get(key));
     }
     public void showAll() {
-        library.forEach((key,file)-> System.out.println(key));
+        RAMStorage.getInstance().getLibrary().forEach((key,file)-> System.out.println(key));
     }
-    public boolean contains(String key) {return library.containsKey(key);}
+    public boolean contains(String key) {return RAMStorage.getInstance().getLibrary().containsKey(key);}
+    public boolean connectionIsEstablished() {return true;}
 }

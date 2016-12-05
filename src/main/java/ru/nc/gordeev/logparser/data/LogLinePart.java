@@ -11,17 +11,31 @@ public enum LogLinePart {
     LOG_LEVEL('l'),
     CLASS_PATH('o'),
     MESSAGE('t');
-    public int regExpGroup;
-    public char placeHolder;
-    public int range=0;
+    private int regExpGroup;
+    private final char placeHolder;
+    private int range=0;
+
+    LogLinePart(char letter) {
+        setRegExpGroup(ordinal()+1);
+        placeHolder=letter;
+    }
+
+    public int getRegExpGroup() {
+        return regExpGroup;
+    }
+
+    public char getPlaceHolder() {
+        return placeHolder;
+    }
+
+    public int getRange() {
+        return range;
+    }
+
     public void setRegExpGroup(int group) {
         regExpGroup=group;
     }
     public void specifyRange(int start, int end) {
         range=end-start+1;
-    }
-    LogLinePart(char letter) {
-        setRegExpGroup(ordinal()+1);
-        placeHolder=letter;
     }
 }

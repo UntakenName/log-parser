@@ -6,20 +6,20 @@ public class LogFile {
     private String path = "Unknown";
     private ArrayList<LogLine> logs = new ArrayList<>();
 
-    public String getPath() {return path;}
-
-    public ArrayList<LogLine> getLogs() {
-        ArrayList<LogLine> taken = new ArrayList<>();
-        logs.forEach((logLine)->taken.add(logs.indexOf(logLine),logLine));
-        return taken;
-    }
-
     public LogFile() {
     }
 
     public LogFile(String path, ArrayList<LogLine> logs) {
         this.path = path;
         this.logs = logs;
+    }
+
+    public String getPath() {return path;}
+
+    public ArrayList<LogLine> getLogs() {
+        ArrayList<LogLine> taken = new ArrayList<>();
+        logs.forEach((logLine)->taken.add(logs.indexOf(logLine),logLine));
+        return taken;
     }
 
     @Override
@@ -43,6 +43,6 @@ public class LogFile {
 
     @Override
     public int hashCode() {
-        return logs != null ? logs.hashCode() : 0;
+        return path != null ? path.hashCode() : 0;
     }
 }

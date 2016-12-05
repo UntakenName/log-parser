@@ -7,7 +7,7 @@ import ru.nc.gordeev.logparser.data.LogFile;
  *  of this storage and declare an element within StorageType enum.
  */
 
-public interface DAO {
+public interface IDAO {
     void insert(LogFile file);
     LogFile find(String path);
     void delete(String path);
@@ -18,4 +18,5 @@ public interface DAO {
     void show(String path);
     void showAll();
     boolean contains(String path);
+    boolean connectionIsEstablished();
 }

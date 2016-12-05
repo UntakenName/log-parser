@@ -1,5 +1,6 @@
 package ru.nc.gordeev.logparser.data;
 
+
 /** Enum serves to weaken the coupling between the application functionality and applicable storage types.
  *  To make the application work with another type of storage, create DAO implementation of this storage and
  *  declare an element within this enum. Value of the element should be expressed exactly as in the Property
@@ -7,9 +8,26 @@ package ru.nc.gordeev.logparser.data;
  */
 
 public enum StorageType {
-    RAM("ru.nc.gordeev.logparser.util.RAMDAOImpl");
-    public String DAOImplementationName;
-    StorageType(String name) {
-        DAOImplementationName=name;
+    RAM("ru.nc.gordeev.logparser.util.RAMDAOFactory","ru.nc.gordeev.logparser.util.RAMDAOImpl","ru.nc.gordeev.logparser.util.LineRAMDAOImpl");
+    private String DAOFactoryName;
+    private String FileDAOImplName;
+    private String LineDAOImplName;
+
+    StorageType(String factoryName, String fileDAOName, String lineDAOName) {
+        DAOFactoryName=factoryName;
+        FileDAOImplName=fileDAOName;
+        LineDAOImplName=lineDAOName;
+    }
+
+    public String getDAOFactoryName() {
+        return DAOFactoryName;
+    }
+
+    public String getFileDAOImplName() {
+        return FileDAOImplName;
+    }
+
+    public String getLineDAOImplName() {
+        return LineDAOImplName;
     }
 }

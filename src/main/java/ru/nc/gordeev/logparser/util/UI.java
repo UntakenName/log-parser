@@ -1,7 +1,8 @@
 package ru.nc.gordeev.logparser.util;
 
-
 import java.util.Scanner;
+
+import static ru.nc.gordeev.logparser.util.ConfigurationManager.getCurrentConfigurations;
 
 public class UI {
     public static void main(String[] args) {
@@ -88,7 +89,7 @@ public class UI {
                                         .setInitialConfigurations();
                                 break;
                             case "print":
-                                System.out.println(new ConfigurationManager().getCurrentConfigurations());
+                                System.out.println(getCurrentConfigurations());
                                 break;
                             case "back":
                                 break config;
@@ -105,7 +106,7 @@ public class UI {
                     System.out.println("Good bye!");
                     break interaction;
                 default:{
-                    new LogParser().parseFile(line);
+                    new LogParser(new DataManager(),getCurrentConfigurations()).parseFile(line);
                 }
             }
         }
