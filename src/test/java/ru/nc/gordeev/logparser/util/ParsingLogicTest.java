@@ -6,7 +6,6 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import ru.nc.gordeev.logparser.data.Configurations;
 import ru.nc.gordeev.logparser.data.LogFile;
 import ru.nc.gordeev.logparser.data.LogLine;
 

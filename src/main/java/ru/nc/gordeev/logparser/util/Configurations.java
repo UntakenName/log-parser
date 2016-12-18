@@ -1,12 +1,11 @@
-package ru.nc.gordeev.logparser.data;
+package ru.nc.gordeev.logparser.util;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import ru.nc.gordeev.logparser.util.IDAO;
-import ru.nc.gordeev.logparser.util.IDAOFactory;
-import ru.nc.gordeev.logparser.util.RAMDAOFactory;
-import ru.nc.gordeev.logparser.util.RAMDAOImpl;
+import ru.nc.gordeev.logparser.data.IDAO;
+import ru.nc.gordeev.logparser.data.RAMDAOImpl;
 
+import java.util.Locale;
 import java.util.Properties;
 import java.util.regex.Pattern;
 

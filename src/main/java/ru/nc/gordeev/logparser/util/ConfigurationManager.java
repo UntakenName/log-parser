@@ -2,12 +2,12 @@ package ru.nc.gordeev.logparser.util;
 
 
 
-import ru.nc.gordeev.logparser.data.Configurations;
+import org.slf4j.LoggerFactory;
+
 
 import java.io.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 public class ConfigurationManager {
 
@@ -31,7 +31,7 @@ public class ConfigurationManager {
         try (InputStream input = new FileInputStream(path)) {
             newConfigurations.load(input);
         } catch (IOException e) {
-            Logger.getAnonymousLogger().log(Level.WARNING,"SOMETHING WENT WRONG!",e);
+            LoggerFactory.getLogger(ConfigurationManager.class).warn("Can't set configurations!",e);
             return;
         }
         configurators.forEach(conf->conf.setConfiguration(currentConfigurations, newConfigurations));

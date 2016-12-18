@@ -1,6 +1,6 @@
-package ru.nc.gordeev.logparser.util;
+package ru.nc.gordeev.logparser.data;
 
-import ru.nc.gordeev.logparser.data.LogFile;
+import java.util.ArrayList;
 
 /** DAO interface serves to weaken the coupling between the application functionality and applicable
  *  storage types. To make the application work with another type of storage, create DAO implementation
@@ -14,9 +14,7 @@ public interface IDAO {
     void update(String path, LogFile file);
     int countLines(String path);
     int countFiles();
-    void clear();
-    void show(String path);
-    void showAll();
+    ArrayList<String> getContent ();
     boolean contains(String path);
     boolean connectionIsEstablished();
 }

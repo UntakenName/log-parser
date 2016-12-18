@@ -6,9 +6,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.*;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import ru.nc.gordeev.logparser.data.Configurations;
-
-import ru.nc.gordeev.logparser.data.StorageType;
+import ru.nc.gordeev.logparser.data.IDAO;
 
 
 import java.util.ArrayList;
@@ -42,17 +40,20 @@ public class StorageConnectionTest {
         when(storeTestConfigMock.getProperties()).thenReturn(initTestProperties);
 
         initTestProperties.setProperty("whereToStore","");
+        testProperties.setProperty("user","system");
+        testProperties.setProperty("password","1234");
 
         //The test tries to establish a connection through each DAOImpl possible
+        int numberOfStorages = StorageType.values().length;
         for (StorageType storage: StorageType.values() ) {
             testProperties.setProperty("whereToStore",storage.toString());
 
-            //The test tries to capture a instantiated within the configurator DAOFactory
+            //The test tries to capture a DAOFactory instantiated within the configurator
             storageConfTestSubject.setConfiguration(storeTestConfigMock,testProperties);
-            verify(storeTestConfigMock).setDAOFactory(capturedDAOFactory.capture());
+            verify(storeTestConfigMock, atMost(numberOfStorages)).setDAOFactory(capturedDAOFactory.capture());
 
             //The test uses the captured DAOFactory to instantiate a DAO implementation
-            when(storeTestConfigMock.getDAOFactory()).thenReturn(capturedDAOFactory.getValue());
+            doReturn(capturedDAOFactory.getValue()).when(storeTestConfigMock).getDAOFactory();
 
             //Storage type property removal achieves avoiding a new DAOFactory instantiation
             testProperties.remove("whereToStore");
@@ -62,7 +63,7 @@ public class StorageConnectionTest {
 
                 testProperties.setProperty("workWith",type);
                 storageConfTestSubject.setConfiguration(storeTestConfigMock,testProperties);
-                verify(storeTestConfigMock).setDAO(capturedDAO.capture());
+                verify(storeTestConfigMock,atMost(2*numberOfStorages)).setDAO(capturedDAO.capture());
 
                 //If getValue() returns the same object as capturedImpl, The factory failed to instantiate a DAOImpl
                 if (capturedDAO.getValue()==capturedImpl||!capturedDAO.getValue().connectionIsEstablished()) {
@@ -70,8 +71,10 @@ public class StorageConnectionTest {
                 }
                 capturedImpl = capturedDAO.getValue();
             }
+
+            //DAOImpl type property removal achieves avoiding a DAOIpml instantiation in the wrapper for-cycle
             testProperties.remove("workWith");
         }
-        assertTrue("Failed to connect with:\n"+failedToConnectDAO+"\n",failedToConnectDAO.size()==0);
+        assertTrue("Failed to connect with:\n"+failedToConnectDAO,failedToConnectDAO.size()==0);
     }
 }

@@ -1,9 +1,8 @@
 package ru.nc.gordeev.logparser.util;
 import org.joda.time.DateTime;
-import ru.nc.gordeev.logparser.data.Configurations;
+import org.slf4j.LoggerFactory;
 import ru.nc.gordeev.logparser.data.LogFile;
 import ru.nc.gordeev.logparser.data.LogLine;
-import ru.nc.gordeev.logparser.data.LogLinePart;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.*;
 import java.util.regex.*;
 
 public class LogParser {
@@ -21,7 +19,7 @@ public class LogParser {
 
     private Configurations config;
 
-    LogParser(DataManager dataManager,Configurations configurations) {
+    public LogParser(DataManager dataManager,Configurations configurations) {
         manager=dataManager;
         config=configurations;
     }
@@ -46,7 +44,7 @@ public class LogParser {
             }
             return content;
         } catch (IOException e) {
-            Logger.getAnonymousLogger().log(Level.WARNING,"SOMETHING WENT WRONG!",e);
+            LoggerFactory.getLogger(LogParser.class).warn("Can't obtain the content!",e);
             return new ArrayList<>();
         }
     }

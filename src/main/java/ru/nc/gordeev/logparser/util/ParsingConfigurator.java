@@ -1,8 +1,5 @@
 package ru.nc.gordeev.logparser.util;
 
-import ru.nc.gordeev.logparser.data.Configurations;
-import ru.nc.gordeev.logparser.data.LogLinePart;
-
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeMap;
@@ -40,7 +37,8 @@ public class ParsingConfigurator implements IConfigurator {
                     for (i[0] = 0; i[0] < part.getRange(); i[0]++) {
                         pattern.append(part.getPlaceHolder());
                     }
-                    if (logFormat.indexOf("*") - 1 != logFormat.indexOf(part.getPlaceHolder())) {
+                    if (logFormat.lastIndexOf(part.getPlaceHolder())==(logFormat.length()-1)
+                            ||logFormat.toCharArray()[logFormat.lastIndexOf(part.getPlaceHolder())+1] != '*') {
                         logFormat = logFormat.replace(pattern, "%" + (part.ordinal() + 1) + "$" + part.getRange() + "s");
                     } else {
                         logFormat = logFormat.replace(pattern.append('*'), "%" + (part.ordinal() + 1) + "$s");
@@ -48,7 +46,7 @@ public class ParsingConfigurator implements IConfigurator {
                     pattern.delete(0, pattern.length());
                 }
             }
-            currentConfiguration.setLineToStringFormat(logFormat);
+            currentConfiguration.setLineToStringFormat(logFormat.replaceAll("\\*",""));
 
             //It's easier to build a regex for a logline parsing using LogLine toString() format
             String regExp = logFormat

@@ -1,4 +1,4 @@
-package ru.nc.gordeev.logparser.data;
+package ru.nc.gordeev.logparser.util;
 
 
 /** Enum serves to weaken the coupling between the application functionality and applicable storage types.
@@ -8,7 +8,8 @@ package ru.nc.gordeev.logparser.data;
  */
 
 public enum StorageType {
-    RAM("ru.nc.gordeev.logparser.util.RAMDAOFactory","ru.nc.gordeev.logparser.util.RAMDAOImpl","ru.nc.gordeev.logparser.util.LineRAMDAOImpl");
+    RAM("ru.nc.gordeev.logparser.util.RAMDAOFactory","ru.nc.gordeev.logparser.data.RAMDAOImpl","ru.nc.gordeev.logparser.data.LineRAMDAOImpl"),
+    DB("ru.nc.gordeev.logparser.util.DBDAOFactory","ru.nc.gordeev.logparser.data.FileDBDAOImpl","ru.nc.gordeev.logparser.data.LineDBDAOImpl");
     private String DAOFactoryName;
     private String FileDAOImplName;
     private String LineDAOImplName;

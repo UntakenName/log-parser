@@ -1,7 +1,6 @@
-package ru.nc.gordeev.logparser.util;
+package ru.nc.gordeev.logparser.data;
 
-import ru.nc.gordeev.logparser.data.LogFile;
-import ru.nc.gordeev.logparser.data.RAMStorage;
+import java.util.*;
 
 public class RAMDAOImpl implements IDAO {
     public void insert(LogFile file){RAMStorage.getInstance().getLibrary().put(file.getPath(),file);}
@@ -18,14 +17,8 @@ public class RAMDAOImpl implements IDAO {
     public int countFiles(){
         return RAMStorage.getInstance().getLibrary().size();
     }
-    public void clear(){
-        RAMStorage.getInstance().getLibrary().clear();
-    }
-    public void show(String key) {
-        System.out.println(RAMStorage.getInstance().getLibrary().get(key));
-    }
-    public void showAll() {
-        RAMStorage.getInstance().getLibrary().forEach((key,file)-> System.out.println(key));
+    public ArrayList<String> getContent() {
+        return new ArrayList<>(RAMStorage.getInstance().getLibrary().keySet());
     }
     public boolean contains(String key) {return RAMStorage.getInstance().getLibrary().containsKey(key);}
     public boolean connectionIsEstablished() {return true;}

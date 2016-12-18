@@ -1,4 +1,4 @@
-package ru.nc.gordeev.logparser.data;
+package ru.nc.gordeev.logparser.util;
 
 /** Enum serves to weaken the coupling between the utilitarian classes and the data consisted in a logline.
  *  To make another field within LogLine class, declare it and its toString(), its getters and setters and

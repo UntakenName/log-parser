@@ -1,7 +1,5 @@
 package ru.nc.gordeev.logparser.util;
 
-import ru.nc.gordeev.logparser.data.Configurations;
-
 import java.util.Properties;
 
     /** Class serves to configure DateTime format according to SRP.

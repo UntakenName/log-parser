@@ -1,10 +1,12 @@
-package ru.nc.gordeev.logparser.util;
+package ru.nc.gordeev.logparser.ui;
+
+import ru.nc.gordeev.logparser.util.*;
 
 import java.util.Scanner;
 
 import static ru.nc.gordeev.logparser.util.ConfigurationManager.getCurrentConfigurations;
 
-public class UI {
+public class ConsoleUI {
     public static void main(String[] args) {
         System.out.println("Greetings!\nType \"help\" for available commands.");
         Scanner scanner = new Scanner(System.in);
