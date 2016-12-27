@@ -1,4 +1,6 @@
-package ru.nc.gordeev.logparser.util;
+package ru.nc.gordeev.logparser.config;
+
+import ru.nc.gordeev.logparser.util.LogLinePart;
 
 import java.util.Map;
 import java.util.Properties;

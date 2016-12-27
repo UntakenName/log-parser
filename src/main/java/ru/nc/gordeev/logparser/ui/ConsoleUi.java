@@ -1,12 +1,14 @@
 package ru.nc.gordeev.logparser.ui;
 
+import ru.nc.gordeev.logparser.config.*;
+import ru.nc.gordeev.logparser.data.DataManager;
 import ru.nc.gordeev.logparser.util.*;
 
 import java.util.Scanner;
 
-import static ru.nc.gordeev.logparser.util.ConfigurationManager.getCurrentConfigurations;
+import static ru.nc.gordeev.logparser.config.ConfigurationManager.getCurrentConfigurations;
 
-public class ConsoleUI {
+public class ConsoleUi {
     public static void main(String[] args) {
         System.out.println("Greetings!\nType \"help\" for available commands.");
         Scanner scanner = new Scanner(System.in);
@@ -28,11 +30,12 @@ public class ConsoleUI {
                         line = scanner.nextLine();
                         switch (line.toLowerCase()) {
                             case "help":
-                                System.out.println("Type:\n/path/ - specify the file to count lines in (when parsed into library);\n" +
+                                System.out.println("Type:\n/query/ - specify the file to count lines in (when parsed into library) or the time period during which to count logs;\n" +
                                         "all - to count the number of files in the library;\n" +
                                         "print - to print paths to all the parsed files in the library;;\n" +
                                         "back - to return to the main section;\n" +
-                                        "exit - to finish the session.");
+                                        "exit - to finish the session.\n" +
+                                        "NOTE: specify time period through typing common time interval for each log within the period EXACTLY as they appear in the current logTimeFormat!");
                                 break;
                             case "all":
                                 new DataManager().countFiles();
@@ -56,10 +59,11 @@ public class ConsoleUI {
                         line = scanner.nextLine();
                         switch (line.toLowerCase()) {
                             case "help":
-                                System.out.println("Type:\n/path/ - specify the file to print onto the console (when parsed into library);\n" +
+                                System.out.println("Type:\n/query/ - specify the file to print onto the console (when parsed into library) or the time period;\n" +
                                         "all - to print paths to all the parsed files in the library;\n" +
                                         "back - to return to the main section;\n" +
-                                        "exit - to finish the session.");
+                                        "exit - to finish the session." +
+                                        "NOTE: specify time period through typing common time interval for each log within the period EXACTLY as they appear in the current logTimeFormat!");
                                 break;
                             case "all":
                                 new DataManager().showAll();
@@ -87,7 +91,11 @@ public class ConsoleUI {
                                         "exit - to finish the session.");
                                 break;
                             case "default":
-                                new ConfigurationManager(new StorageConfigurator(),new ParsingConfigurator(),new DateConfigurator())
+                                new ConfigurationManager(
+                                        new StorageConfigurator(),
+                                        new ParsingConfigurator(),
+                                        new DateConfigurator(),
+                                        new DbConnectionConfigurator())
                                         .setInitialConfigurations();
                                 break;
                             case "print":
@@ -99,7 +107,12 @@ public class ConsoleUI {
                                 System.out.println("Good bye!");
                                 break interaction;
                             default:
-                                new ConfigurationManager(new StorageConfigurator(),new ParsingConfigurator(),new DateConfigurator())
+                                new ConfigurationManager(
+                                        new DbConnectionConfigurator(),
+                                        new StorageConfigurator(),
+                                        new ParsingConfigurator(),
+                                        new DateConfigurator()
+                                        )
                                         .setConfigurations(line);
                         }
                     }

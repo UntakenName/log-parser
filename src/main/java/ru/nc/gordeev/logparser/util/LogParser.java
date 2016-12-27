@@ -1,8 +1,10 @@
 package ru.nc.gordeev.logparser.util;
 import org.joda.time.DateTime;
 import org.slf4j.LoggerFactory;
-import ru.nc.gordeev.logparser.data.LogFile;
-import ru.nc.gordeev.logparser.data.LogLine;
+import ru.nc.gordeev.logparser.config.Configurations;
+import ru.nc.gordeev.logparser.data.DataManager;
+import ru.nc.gordeev.logparser.data.entity.LogFile;
+import ru.nc.gordeev.logparser.data.entity.LogLine;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

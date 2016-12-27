@@ -1,4 +1,4 @@
-package ru.nc.gordeev.logparser.util;
+package ru.nc.gordeev.logparser.config;
 
 
 
@@ -14,7 +14,7 @@ public class ConfigurationManager {
     private static Configurations currentConfigurations=new Configurations();
 
     //ver 0.0.7: configurators initial capacity equals to the highly probable number of applied configurators
-    private ArrayList<IConfigurator> configurators=new ArrayList<>(3);
+    private ArrayList<IConfigurator> configurators=new ArrayList<>(4);
 
     public static Configurations getCurrentConfigurations() {
         return currentConfigurations;

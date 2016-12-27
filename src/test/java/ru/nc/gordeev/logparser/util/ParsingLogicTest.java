@@ -6,8 +6,13 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import ru.nc.gordeev.logparser.data.LogFile;
-import ru.nc.gordeev.logparser.data.LogLine;
+import ru.nc.gordeev.logparser.config.ConfigurationManager;
+import ru.nc.gordeev.logparser.config.Configurations;
+import ru.nc.gordeev.logparser.config.IConfigurator;
+import ru.nc.gordeev.logparser.config.ParsingConfigurator;
+import ru.nc.gordeev.logparser.data.DataManager;
+import ru.nc.gordeev.logparser.data.entity.LogFile;
+import ru.nc.gordeev.logparser.data.entity.LogLine;
 
 import java.util.Properties;
 
@@ -15,7 +20,7 @@ import static junit.framework.TestCase.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static ru.nc.gordeev.logparser.util.ConfigurationManager.getCurrentConfigurations;
+import static ru.nc.gordeev.logparser.config.ConfigurationManager.getCurrentConfigurations;
 
 
 public class ParsingLogicTest {

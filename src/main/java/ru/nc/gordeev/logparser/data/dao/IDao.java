@@ -1,4 +1,6 @@
-package ru.nc.gordeev.logparser.data;
+package ru.nc.gordeev.logparser.data.dao;
+
+import ru.nc.gordeev.logparser.data.entity.LogFile;
 
 import java.util.ArrayList;
 
@@ -7,7 +9,7 @@ import java.util.ArrayList;
  *  of this storage and declare an element within StorageType enum.
  */
 
-public interface IDAO {
+public interface IDao {
     void insert(LogFile file);
     LogFile find(String path);
     void delete(String path);

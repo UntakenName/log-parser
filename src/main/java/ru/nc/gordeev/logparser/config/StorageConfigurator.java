@@ -1,10 +1,10 @@
-package ru.nc.gordeev.logparser.util;
+package ru.nc.gordeev.logparser.config;
 
 import org.slf4j.LoggerFactory;
-import ru.nc.gordeev.logparser.data.IDAO;
-import ru.nc.gordeev.logparser.data.RAMDAOImpl;
+import ru.nc.gordeev.logparser.data.dao.FileRamDaoImpl;
+import ru.nc.gordeev.logparser.data.dao.IDao;
+import ru.nc.gordeev.logparser.util.StorageType;
 
-import java.lang.reflect.Constructor;
 import java.util.Properties;
 
 
@@ -13,7 +13,7 @@ import java.util.Properties;
     *  methods void setDAO(DAO) and void setProperty(String,String)
     */
 
-public class StorageConfigurator implements IConfigurator{
+public class StorageConfigurator implements IConfigurator {
 
     @Override
     public void setConfiguration(Configurations currentConfiguration, Properties properties) {
@@ -26,28 +26,26 @@ public class StorageConfigurator implements IConfigurator{
         try {
             if (whereToStore!=null&&!(whereToStore.equals(whereStored))){
                 appliedStorage = StorageType.valueOf(whereToStore.toUpperCase());
-                Class factory = Class.forName(appliedStorage.getDAOFactoryName());
-                Constructor constructor = factory.getConstructor(Properties.class);
-                currentConfiguration.setDAOFactory((IDAOFactory) constructor.newInstance(properties));
+                currentConfiguration.setDaoFactory(appliedStorage.getDaoFactory(currentConfiguration));
                 currentConfiguration.setProperty("whereToStore",whereToStore);
                 storageHasBeenChanged=true;
             }
-            if (workWith!=null&&(storageHasBeenChanged||!(workWith.equals(workingWith)))) {
-                IDAO concreteDAO = currentConfiguration.getDAOFactory().getDAOImplementation(workWith);
-                currentConfiguration.setDAO(concreteDAO);
+        } catch (Exception e) {
+            LoggerFactory.getLogger(StorageConfigurator.class).warn("Can't storage where configured!", e);
+        }
+        if (workWith!=null&&(storageHasBeenChanged||!(workWith.equals(workingWith)))) {
+            IDao concreteDao = currentConfiguration.getDaoFactory().getDaoImplementation(workWith);
+            if (concreteDao!=null) {
+                currentConfiguration.setDao(concreteDao);
                 currentConfiguration.setProperty("workWith",whereToStore);
                 System.out.println("Application now works with log"+workWith+"s");
-            }
-        } catch (IllegalArgumentException e) {
-            LoggerFactory.getLogger(StorageConfigurator.class).warn("Can't storage where configured!",e);
-        } catch (Exception e) {
-            LoggerFactory.getLogger(StorageConfigurator.class).warn("No such DAO as required!",e);
+            } else System.out.println("No such DAO as required!");
         }
     }
 
     @Override
     public void setInitialConfiguration(Configurations currentConfiguration) {
         currentConfiguration.setProperty("whereToStore","ram");
-        currentConfiguration.setDAO(new RAMDAOImpl());
+        currentConfiguration.setDao(new FileRamDaoImpl());
     }
 }

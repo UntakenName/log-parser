@@ -1,4 +1,4 @@
-package ru.nc.gordeev.logparser.util;
+package ru.nc.gordeev.logparser.config;
 
 import java.util.Properties;
 

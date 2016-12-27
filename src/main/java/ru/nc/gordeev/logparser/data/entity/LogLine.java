@@ -1,7 +1,7 @@
-package ru.nc.gordeev.logparser.data;
+package ru.nc.gordeev.logparser.data.entity;
 
 import org.joda.time.DateTime;
-import static ru.nc.gordeev.logparser.util.ConfigurationManager.*;
+import static ru.nc.gordeev.logparser.config.ConfigurationManager.*;
 
 public class LogLine {
     private DateTime date = new DateTime(); //the date-time of an instance creation by default

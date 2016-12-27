@@ -1,17 +1,19 @@
 package ru.nc.gordeev.logparser.data;
 
+import ru.nc.gordeev.logparser.data.entity.LogFile;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class RAMStorage {
-    private static RAMStorage instance = null;
+public class RamStorage {
+    private static RamStorage instance = null;
     private Map<String, LogFile> library = new ConcurrentHashMap<>();
 
-    private RAMStorage(){}
+    private RamStorage(){}
 
-    public static RAMStorage getInstance() {
+    public static RamStorage getInstance() {
         if (instance==null) {
-            instance=new RAMStorage();
+            instance=new RamStorage();
         }
         return instance;
     }

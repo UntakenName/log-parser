@@ -1,4 +1,4 @@
-package ru.nc.gordeev.logparser.data;
+package ru.nc.gordeev.logparser.data.entity;
 
 import java.util.ArrayList;
 
